@@ -1,10 +1,13 @@
 <template>
-  <RouterView />
-</template>
-<script setup lang="ts"></script>
+  <div id="app">
+    <Header />
 
-<style scoped>
-#app {
-  min-height: 100vh;
-}
-</style>
+    <main>
+      <RouterView />
+    </main>
+  </div>
+</template>
+
+<script setup lang="ts">
+import Header from '@/components/Header.vue'
+</script>

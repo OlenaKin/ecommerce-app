@@ -1,3 +1,6 @@
+// src/types/interfaces.ts
+
+// Product from FakeStoreAPI
 export interface Product {
   id: number
   title: string
@@ -5,37 +8,40 @@ export interface Product {
   description: string
   category: string
   image: string
-  rating: {
+  rating?: {
     rate: number
     count: number
   }
 }
 
-export interface Category {
-  id: string
-  name: string
-}
+// Category (FakeStoreAPI returns string[])
+export type Category = string
 
-export interface CartItem {
-  productId: number
-  quantity: number
-  product: Product
-}
-
+// User for authentication
 export interface User {
-  id: number
-  username: string
   email: string
+  password: string
   token?: string
 }
 
-export interface LoginCredentials {
-  username: string
-  password: string
+// Login response from FakeStoreAPI
+export interface LoginResponse {
+  token: string
 }
 
-export interface ApiResponse<T> {
-  data: T
-  status: number
-  message?: string
+// Cart item
+export interface CartItem {
+  product: Product
+  quantity: number
+}
+
+// Wishlist item
+export interface WishlistItem {
+  product: Product
+}
+
+// Generic API error
+export interface ApiError {
+  message: string
+  status?: number
 }
