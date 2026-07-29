@@ -1,12 +1,12 @@
 <template>
-  <div class="login">
+  <div class="login page">
     <h2>Login</h2>
 
     <form @submit.prevent="handleLogin">
       <input v-model="username" placeholder="Username" required />
       <input v-model="password" type="password" placeholder="Password" required />
 
-      <button type="submit">Login</button>
+      <button type="submit" class="login_btn_three">LOGIN</button>
     </form>
 
     <p v-if="error" class="error">{{ error }}</p>

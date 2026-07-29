@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Products</h1>
+    <!-- <h1>Products</h1> -->
 
     <!-- Category Filter -->
 
@@ -44,5 +44,8 @@ watch(
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1rem;
   align-items: stretch;
+}
+.home {
+  margin: 5rem;
 }
 </style>

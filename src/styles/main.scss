@@ -1,3 +1,59 @@
 @use 'sass:color';
 @use '@/styles/variables.scss' as *;
 @use '@/styles/global.scss';
+
+:focus,
+:focus-visible {
+  outline: none !important;
+}
+
+button.login_btn_three {
+  all: unset;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  line-height: 50px;
+  height: 50px;
+  width: 12rem;
+  text-align: center;
+  background: $color-primary;
+  color: #161515;
+  font-size: 1.1rem;
+  border: 0.5px solid rgb(221, 208, 208);
+  transition: all 0.3s;
+}
+
+.login_btn_three::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: $color-secondary;
+  transition: all 0.3s;
+}
+
+.login_btn_three:hover::before {
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.login_btn_three::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transform: scale(1.2);
+}
+
+.login_btn_three:hover::after {
+  opacity: 1;
+  transform: scale(1);
+}
+.page {
+  padding-top: 90px;
+  padding-bottom: 90px;
+}

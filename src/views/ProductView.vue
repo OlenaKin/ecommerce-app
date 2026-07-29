@@ -1,18 +1,26 @@
 <!-- src/views/ProductView.vue -->
 
 <template>
-  <div class="product">
+  <div class="product page">
     <div v-if="loading">Loading...</div>
 
-    <div v-else>
-      <img :src="product.image" :alt="product.title" class="image" />
+    <div v-else class="product-detail">
+      <!-- LEFT SIDE -->
+      <div class="product-detail__image">
+        <img :src="product.image" :alt="product.title" />
+      </div>
 
-      <h1>{{ product.title }}</h1>
-      <p class="price">{{ product.price }} €</p>
-      <p class="description">{{ product.description }}</p>
+      <!-- RIGHT SIDE -->
+      <div class="product-detail__content">
+        <h1>{{ product.title }}</h1>
+        <p class="price">{{ product.price }} €</p>
+        <p class="description">{{ product.description }}</p>
 
-      <button @click="addToCart(product)">Add to Cart</button>
-      <button @click="addToWishlist(product)">Add to Wishlist</button>
+        <div class="actions">
+          <button @click="addToCart(product)">Add to Cart</button>
+          <button @click="addToWishlist(product)">Add to Wishlist</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>

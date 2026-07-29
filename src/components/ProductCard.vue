@@ -1,24 +1,31 @@
 <!-- src/components/ProductCard.vue -->
+<
 <template>
-  <router-link :to="`/product/${product.id}`" class="card">
-    <div class="card" @click="$emit('click')">
+  <div class="card">
+    <!-- Clickable area (opens product page) -->
+    <router-link :to="`/product/${product.id}`" class="card__link">
       <img :src="product.image" :alt="product.title" class="image" />
 
       <h3 class="title">{{ product.title }}</h3>
       <p class="price">{{ product.price }} €</p>
-      <button @click.stop="addToWishlist">❤️ Wishlist</button>
-      <button @click.stop="addToCart">🛒 Add to Cart</button>
+    </router-link>
+
+    <!-- Buttons (do NOT open product page) -->
+    <div class="card__actions">
+      <button @click.stop="addToWishlist">❤️</button>
+      <button @click.stop="addToCart">🛒</button>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script setup lang="ts">
-import type { Product } from '@/types/interfaces'
 import { useWishlistStore } from '@/stores/wishlist'
 import { useCartStore } from '@/stores/cart'
+import type { Product } from '@/types/interfaces'
 
 const wishlist = useWishlistStore()
 const cart = useCartStore()
+
 const props = defineProps<{ product: Product }>()
 
 function addToWishlist() {
@@ -32,7 +39,7 @@ function addToCart() {
 
 <style scoped lang="scss">
 .card {
-  border: 1px solid #ddd;
+  border: 1px solid #f7f7f7;
   padding: 1rem;
   cursor: pointer;
   transition: 0.2s;
@@ -59,5 +66,11 @@ function addToCart() {
 .price {
   font-weight: bold;
   margin-top: 0.25rem;
+}
+
+a.card:focus,
+a.card:focus-visible {
+  outline: 2px solid #aaa; // gray
+  outline-offset: 2px;
 }
 </style>
