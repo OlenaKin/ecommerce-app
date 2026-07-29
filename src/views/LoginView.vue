@@ -1,11 +1,11 @@
-<!-- src/views/LoginView.vue -->
 <template>
   <div class="login">
-    <h1>Login</h1>
+    <h2>Login</h2>
 
     <form @submit.prevent="handleLogin">
-      <input v-model="email" type="text" placeholder="Username" required />
+      <input v-model="username" placeholder="Username" required />
       <input v-model="password" type="password" placeholder="Password" required />
+
       <button type="submit">Login</button>
     </form>
 
@@ -16,19 +16,27 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
 
-const email = ref('')
+const auth = useAuthStore()
+const router = useRouter()
+
+const username = ref('')
 const password = ref('')
 const error = ref('')
 
-const auth = useAuthStore()
-
 async function handleLogin() {
   try {
-    await auth.login({ email: email.value, password: password.value })
-    window.location.href = '/'
-  } catch (err) {
-    error.value = 'Invalid username or password'
+    await auth.login(username.value, password.value)
+    router.push('/')
+  } catch (e) {
+    error.value = 'Login failed'
   }
 }
 </script>
+
+<style scoped>
+.error {
+  color: red;
+}
+</style>

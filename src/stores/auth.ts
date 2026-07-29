@@ -1,29 +1,36 @@
-// src/stores/auth.ts
 import { defineStore } from 'pinia'
-import { login } from '@/services/auth'
-import type { User } from '@/types/interfaces'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: localStorage.getItem('token') || '',
-    isAuthenticated: !!localStorage.getItem('token'),
+    token: localStorage.getItem(import.meta.env.VITE_AUTH_STORAGE_KEY) || null,
+    isAuthenticated: !!localStorage.getItem(import.meta.env.VITE_AUTH_STORAGE_KEY),
   }),
 
   actions: {
-    async login(user: User) {
-      const res = await login(user)
+    async login(username: string, password: string) {
+      const apiUrl = import.meta.env.VITE_API_URL
+      const res = await fetch(`${apiUrl}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      })
 
-      this.token = res.token
+      const data = await res.json()
+
+      if (!data.token) {
+        throw new Error('Invalid credentials')
+      }
+
+      this.token = data.token
       this.isAuthenticated = true
 
-      localStorage.setItem('token', res.token)
+      localStorage.setItem(import.meta.env.VITE_AUTH_STORAGE_KEY, data.token)
     },
 
     logout() {
-      this.token = ''
+      this.token = null
       this.isAuthenticated = false
-
-      localStorage.removeItem('token')
+      localStorage.removeItem(import.meta.env.VITE_AUTH_STORAGE_KEY)
     },
   },
 })

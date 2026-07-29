@@ -1,17 +1,53 @@
-// src/services/cart.ts
-import type { CartItem, Product } from '@/types/interfaces'
+import { defineStore } from 'pinia'
 
-export function addToCart(cart: CartItem[], product: Product): CartItem[] {
-  const existing = cart.find((item) => item.product.id === product.id)
+export const useCartStore = defineStore('cart', {
+  state: () => ({
+    items: JSON.parse(localStorage.getItem(import.meta.env.VITE_CART_STORAGE_KEY) || '[]').filter(
+      (item: any) => item && item.id && item.quantity,
+    ),
+  }),
 
-  if (existing) {
-    existing.quantity++
-    return [...cart]
-  }
+  getters: {
+    totalPrice(state) {
+      return state.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    },
+    totalItems(state) {
+      return state.items.reduce((sum, item) => sum + item.quantity, 0)
+    },
+  },
 
-  return [...cart, { product, quantity: 1 }]
-}
+  actions: {
+    add(product: any) {
+      const existing = this.items.find((p: any) => p.id === product.id)
 
-export function removeFromCart(cart: CartItem[], productId: number): CartItem[] {
-  return cart.filter((item) => item.product.id !== productId)
-}
+      if (existing) {
+        existing.quantity++
+      } else {
+        this.items.push({ ...product, quantity: 1 })
+      }
+
+      this.save()
+    },
+
+    remove(id: number) {
+      this.items = this.items.filter((p: any) => p.id !== id)
+      this.save()
+    },
+
+    updateQuantity(id: number, qty: number) {
+      const item = this.items.find((p: any) => p.id === id)
+      if (!item) return
+
+      item.quantity = qty
+      if (item.quantity <= 0) {
+        this.remove(id)
+      } else {
+        this.save()
+      }
+    },
+
+    save() {
+      localStorage.setItem(import.meta.env.VITE_CART_STORAGE_KEY, JSON.stringify(this.items))
+    },
+  },
+})

@@ -1,9 +1,9 @@
-// src/services/categories.ts
+//// src/services/categories.ts
 import type { Category } from '@/types/interfaces'
-import { config } from '@/config'
 
 export async function getCategories(): Promise<Category[]> {
-  const res = await fetch(`${config.apiUrl}/products/categories`)
+  const apiUrl = import.meta.env.VITE_API_URL
+  const res = await fetch(`${apiUrl}/products/categories`)
   if (!res.ok) throw new Error('Failed to fetch categories')
   return res.json()
 }

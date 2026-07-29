@@ -1,0 +1,20 @@
+// src/styles/mixins.scss
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin card {
+  border: 1px solid #ddd;
+  padding: $spacing-base;
+  border-radius: 8px;
+  background: #fff;
+}
+
+@mixin responsive-grid($min: 250px) {
+  display: grid;
+  gap: $spacing-base;
+  grid-template-columns: repeat(auto-fill, minmax($min, 1fr));
+}

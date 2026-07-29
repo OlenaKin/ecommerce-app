@@ -1,24 +1,26 @@
-// src/stores/wishlist.ts
 import { defineStore } from 'pinia'
-import type { WishlistItem, Product } from '@/types/interfaces'
 
 export const useWishlistStore = defineStore('wishlist', {
   state: () => ({
-    items: JSON.parse(localStorage.getItem('wishlist') || '[]') as WishlistItem[],
+    items: JSON.parse(localStorage.getItem(import.meta.env.VITE_WISHLIST_STORAGE_KEY) || '[]'),
   }),
 
   actions: {
-    add(product: Product) {
-      const exists = this.items.some((i) => i.product.id === product.id)
-      if (!exists) {
-        this.items.push({ product })
-        localStorage.setItem('wishlist', JSON.stringify(this.items))
+    add(product: any) {
+      // avoid duplicates
+      if (!this.items.find((p: any) => p.id === product.id)) {
+        this.items.push(product)
+        this.save()
       }
     },
 
-    remove(productId: number) {
-      this.items = this.items.filter((i) => i.product.id !== productId)
-      localStorage.setItem('wishlist', JSON.stringify(this.items))
+    remove(id: number) {
+      this.items = this.items.filter((p: any) => p.id !== id)
+      this.save()
+    },
+
+    save() {
+      localStorage.setItem(import.meta.env.VITE_WISHLIST_STORAGE_KEY, JSON.stringify(this.items))
     },
   },
 })
