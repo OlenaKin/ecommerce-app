@@ -2,7 +2,7 @@ name: Build and Deploy Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 permissions:
   contents: read
@@ -20,19 +20,24 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Install dependencies (subfolder)
         run: npm ci
+        working-directory: ./ecommerce-app
 
-      - name: Build
+      - name: Build (subfolder)
         run: npm run build
+        working-directory: ./ecommerce-app
+
+      - name: Show dist contents (debug)
+        run: ls -la ./ecommerce-app/dist && ls -la ./ecommerce-app/dist | sed -n '1,200p'
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ./dist
+          path: ./ecommerce-app/dist
 
   deploy:
     needs: build
