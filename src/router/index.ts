@@ -4,7 +4,7 @@ import type { RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import ProductView from '@/views/ProductView.vue'
 import CartView from '@/views/CartView.vue'
-import WishlistView from '@/views/WishlistView.vue'
+import WishlistView from '../views/WishlistView.vue'
 import LoginView from '@/views/LoginView.vue'
 import { useAuthStore } from '@/stores/auth'
 
