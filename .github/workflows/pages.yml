@@ -23,21 +23,19 @@ jobs:
           node-version: 22
           cache: 'npm'
 
-      - name: Install dependencies (subfolder)
+      - name: Install dependencies
         run: npm ci
-        working-directory: ./ecommerce-app
 
-      - name: Build (subfolder)
+      - name: Build
         run: npm run build
-        working-directory: ./ecommerce-app
 
       - name: Show dist contents (debug)
-        run: ls -la ./ecommerce-app/dist && ls -la ./ecommerce-app/dist | sed -n '1,200p'
+        run: ls -la ./dist || true
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ./ecommerce-app/dist
+          path: ./dist
 
   deploy:
     needs: build
