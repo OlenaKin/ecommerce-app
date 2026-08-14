@@ -17,6 +17,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useWishlistStore } from '@/stores/wishlist'
 
 const wishlistStore = useWishlistStore()
