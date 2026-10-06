@@ -1,3 +1,4 @@
+// src/stores/auth.ts
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
@@ -12,19 +13,23 @@ export const useAuthStore = defineStore('auth', {
       const res = await fetch(`${apiUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password, expiresInMins: 30 }),
       })
 
-      const data = await res.json()
-
-      if (!data.token) {
+      if (!res.ok) {
         throw new Error('Invalid credentials')
       }
 
-      this.token = data.token
-      this.isAuthenticated = true
+      const data = await res.json()
 
-      localStorage.setItem(import.meta.env.VITE_AUTH_STORAGE_KEY, data.token)
+      // 🎯 DummyJSON returns "accessToken" (not "token")
+      if (!data.accessToken) {
+        throw new Error('Invalid credentials')
+      }
+
+      this.token = data.accessToken
+      this.isAuthenticated = true
+      localStorage.setItem(import.meta.env.VITE_AUTH_STORAGE_KEY, data.accessToken)
     },
 
     logout() {
