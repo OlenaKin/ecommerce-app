@@ -12,8 +12,8 @@
 
     <!-- Buttons (do NOT open product page) -->
     <div class="card__actions">
-      <button @click.stop="addToWishlist">❤️</button>
-      <button @click.stop="addToCart">🛒</button>
+      <button @click.stop="addToWishlist"><HeartIcon /></button>
+      <button @click.stop="addToCart"><CartIcon /></button>
     </div>
   </div>
 </template>
@@ -22,6 +22,8 @@
 import { useWishlistStore } from '@/stores/wishlist'
 import { useCartStore } from '@/stores/cart'
 import type { Product } from '@/types/interfaces'
+import HeartIcon from '@/components/icons/HeartIcon.vue'
+import CartIcon from './icons/CartIcon.vue'
 
 const wishlist = useWishlistStore()
 const cart = useCartStore()
