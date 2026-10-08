@@ -46,6 +46,26 @@ function addToCart() {
   cursor: pointer;
   transition: 0.2s;
   height: 100%;
+
+  /* Column layout so the action buttons can sit at the bottom */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Image + title + price take up the free space... */
+.card__link {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ...which pushes the buttons to the same spot at the bottom of every card */
+.card__actions {
+  margin-top: auto;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .card:hover {
