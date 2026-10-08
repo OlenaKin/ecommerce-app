@@ -2,38 +2,24 @@
 @use '@/styles/variables.scss' as *;
 @use '@/styles/global.scss';
 
-/* =========================================
-   FOCUS POLICY
-   =========================================
-   Remove the default browser outline ONLY where a custom
-   focus style replaces it. Do not blanket-kill focus, or
-   keyboard users lose the indicator everywhere.
-   ========================================= */
-
-button:focus:not(:focus-visible),
-a:focus:not(:focus-visible) {
-  outline: none;
+:focus,
+:focus-visible {
+  outline: none !important;
 }
-
-/* =========================================
-   LOGIN BUTTON (ANIMATED)
-   ========================================= */
 
 button.login_btn_three {
   all: unset;
   display: inline-block;
   position: relative;
-  overflow: hidden;
   cursor: pointer;
-
-  /* Default size — callers may override */
-  padding: 0.75rem 1.5rem;
-  min-width: 8rem;
+  overflow: hidden;
+  line-height: 50px;
+  height: 50px;
+  width: 12rem;
   text-align: center;
-
   background: $color-primary;
   color: #161515;
-  font-size: 1rem;
+  font-size: 1.1rem;
   border: 0.5px solid rgb(221, 208, 208);
   transition: all 0.3s;
 }
@@ -67,12 +53,7 @@ button.login_btn_three {
   opacity: 1;
   transform: scale(1);
 }
-
-/* =========================================
-   PAGE WRAPPER
-   ========================================= */
-
-/* Top offset for the fixed header lives on `main` (global.scss) */
 .page {
+  padding-top: 90px;
   padding-bottom: 90px;
 }

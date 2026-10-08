@@ -73,6 +73,12 @@ function remove(id: number) {
   font-weight: bold;
 }
 
+/* PAGE SPACING */
+.cart.page {
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+
 /* TITLE */
 .cart h1 {
   text-align: center;

@@ -44,18 +44,18 @@ function logout() {
   <header class="header">
     <div class="header__container">
       <div class="header__brand" @click="goHome">
-        <h2>JustBUY</h2>
+        <h2>JUST BUY</h2>
       </div>
 
       <!-- Desktop-only: categories + nav links -->
       <div class="header__desktop">
         <CategoriesDropdown />
 
-        <RouterLink to="/cart" class="nav-link"><CartIcon /> <span>Cart</span></RouterLink>
-        <RouterLink to="/wishlist" class="nav-link"><HeartIcon /> <span>Wishlist</span></RouterLink>
+        <RouterLink to="/cart"><CartIcon /> <span>Cart</span></RouterLink>
+        <RouterLink to="/wishlist"><HeartIcon /> <span>Wishlist</span></RouterLink>
       </div>
 
-      <!-- Desktop-only auth button -->
+      <!-- Auth button: visible on both desktop and mobile -->
       <div class="header__auth">
         <button v-if="!auth.isAuthenticated" class="login_btn_three" @click="goLogin">Login</button>
         <button v-else class="login_btn_three" @click="logout">Logout</button>
@@ -79,16 +79,10 @@ function logout() {
 
         <nav class="mobile-nav">
           <CategoriesDropdown />
-          <RouterLink to="/cart" class="nav-link" @click="menuOpen = false">
-            <CartIcon /> <span>Cart</span>
-          </RouterLink>
-          <RouterLink to="/wishlist" class="nav-link" @click="menuOpen = false">
-            <HeartIcon /> <span>Wishlist</span>
-          </RouterLink>
+          <RouterLink to="/cart" @click="menuOpen = false">Cart</RouterLink>
+          <RouterLink to="/wishlist" @click="menuOpen = false">Wishlist</RouterLink>
 
-          <button v-if="!auth.isAuthenticated" class="login_btn_three" @click="goLogin">
-            Login
-          </button>
+          <button v-if="!auth.isAuthenticated" class="login_btn_three" @click="goLogin">Login</button>
           <button v-else class="login_btn_three" @click="logout">Logout</button>
         </nav>
       </div>
@@ -137,5 +131,44 @@ function logout() {
 }
 </script>
 
-<!-- Header styles live in src/styles/global.scss (desktop + mobile together),
-     so scoped rules here can't out-specify the mobile media query. -->
+<style scoped lang="scss">
+@use '@/styles/variables.scss' as *;
+
+/* =========================================
+   DESKTOP LAYOUT
+   ========================================= */
+
+/* Group: categories + cart + wishlist (hidden on mobile) */
+.header__desktop {
+  display: flex;
+  align-items: center;
+  gap: $spacing-base;
+}
+
+/* Auth group — always visible */
+.header__auth {
+  display: flex;
+  align-items: center;
+}
+
+/* =========================================
+   MOBILE LAYOUT
+   ========================================= */
+
+@media (max-width: 768px) {
+  .header__desktop,
+  .header__auth {
+    display: none;
+  }
+
+  .hamburger {
+    font-size: 1.4rem;
+    line-height: 1;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .mobile-nav .login_btn_three {
+    margin-top: $spacing-base;
+  }
+}
+</style>

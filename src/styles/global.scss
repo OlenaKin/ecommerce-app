@@ -13,6 +13,7 @@
 
 html {
   font-size: 16px;
+  scroll-padding-top: $header-height;
 }
 
 body {
@@ -33,6 +34,7 @@ a {
    ========================================= */
 
 button {
+  font: inherit; /* buttons don't inherit the page font by default */
   cursor: pointer;
   padding: 0.5rem 1rem;
   border: none;
@@ -43,6 +45,37 @@ button {
   &:hover {
     background-color: $color-secondary;
     color: $color-text;
+  }
+}
+
+/* =========================================
+   ICON BUTTON / ICON LINK (shared)
+   ========================================= */
+
+.icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: $color-text;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -61,7 +94,10 @@ main {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  /* The header is position: fixed, so main reserves its height + a gap.
+     This is the ONLY place the top offset lives — pages don't add their own. */
+  padding: 1.5rem;
+  padding-top: calc(#{$header-height} + 1.5rem);
 }
 
 /* =========================================
@@ -94,7 +130,7 @@ img {
 }
 
 /* =========================================
-   GRID
+   GRID + CARD
    ========================================= */
 
 .grid {
@@ -124,7 +160,7 @@ img {
 }
 
 /* =========================================
-   HEADER
+   HEADER (shell only — component owns layout)
    ========================================= */
 
 .header {
@@ -132,54 +168,108 @@ img {
   top: 0;
   left: 0;
   width: 100%;
-  height: 4rem;
+  height: $header-height;
   z-index: 1000;
 
   background-color: $color-primary;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 
   display: flex;
   align-items: center;
 }
 
+/* Layout: logo on the left, nav group + login pushed to the right */
 .header__container {
   width: 100%;
-  max-width: 1200px;
-  padding: 0 $spacing-base;
+  padding: 0 $spacing-lg;
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: $spacing-lg;
 }
 
-/*=========================================
-CARD
-=========================================*/
+.header__brand {
+  margin-right: auto;
+}
+
+.header__desktop {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.header__auth {
+  display: flex;
+  align-items: center;
+}
+
+/* Shared look for Categories / Cart / Wishlist (desktop + mobile menu) */
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: $spacing-sm 0.75rem;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: $color-text;
+  font-family: $font-main;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+}
+
+.header__brand h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: $color-text;
+  text-shadow: 2px 2px 4px #898787;
+  cursor: pointer;
+}
+
+/* Hamburger is hidden by default; shown in the mobile media query below */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: $color-text;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* =========================================
+   PRODUCT DETAIL
+   ========================================= */
+
 .product-detail {
   display: flex;
   gap: $spacing-lg;
   padding: $spacing-lg;
-  align-items: center; // ⭐ FIXED: allows centering
+  align-items: center;
 }
 
-/* LEFT IMAGE */
 .product-detail__image img {
   width: 250px;
   height: auto;
   object-fit: contain;
 }
 
-/* RIGHT CONTENT */
 .product-detail__content {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: $spacing-base;
-
   text-align: center;
   align-items: center;
 }
-/* MOBILE VERSION */
+
 @media (max-width: 768px) {
   .product-detail {
     flex-direction: column;
@@ -192,117 +282,47 @@ CARD
   }
 }
 
-/* BRAND */
-.header__brand h2 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  letter-spacing: 3px;
-  color: $color-text;
-  text-shadow: 2px 2px 4px #898787;
-  cursor: pointer;
-}
-
-/* DESKTOP NAV */
-.desktop-nav {
-  display: flex;
-  gap: $spacing-base;
-}
-
-/* ACTIONS */
-.actions {
-  display: flex;
-  align-items: center;
-  gap: $spacing-base;
-}
-
-/* HAMBURGER */
-.hamburger {
-  display: none;
-  background: none;
-  border: none;
-  color: $color-text;
-  font-size: 28px;
-  cursor: pointer;
-}
-
 /* =========================================
-   LOGIN BUTTON (ANIMATED)
-   ========================================= */
-
-// button.login_btn_three {
-//   display: inline-block;
-//   position: relative;
-//   overflow: hidden;
-//   cursor: pointer;
-
-//   padding: $spacing-sm $spacing-base;
-//   border-radius: 4px;
-
-//   background: gainsboro;
-//   color: $color-text;
-//   font-size: 1rem;
-//   font-weight: 600;
-//   letter-spacing: -0.3px;
-
-//   transition:
-//     background 0.3s,
-//     color 0.3s;
-// }
-
-// button.login_btn_three:hover {
-//   background: #b8b7b7;
-//   color: $color-text;
-// }
-
-// .login_btn_three::before,
-// .login_btn_three::after {
-//   content: '';
-//   position: absolute;
-//   inset: 0;
-//   z-index: 1;
-//   transition: all 0.3s;
-// }
-
-// .login_btn_three::before {
-//   background-color: rgba(255, 255, 255, 0.1);
-// }
-
-// .login_btn_three:hover::before {
-//   opacity: 0;
-//   transform: scale(0.5);
-// }
-
-// .login_btn_three::after {
-//   opacity: 0;
-//   border: 1px solid rgba(255, 255, 255, 0.5);
-//   transform: scale(1.2);
-// }
-
-// .login_btn_three:hover::after {
-//   opacity: 1;
-//   transform: scale(1);
-// }
-
-/* =========================================
-   MOBILE MENU
+   MOBILE HEADER + MENU
    ========================================= */
 
 @media (max-width: 768px) {
-  .desktop-nav,
-  .actions {
+  /* Hide the real desktop nav group (class names in Header.vue) */
+  .header__desktop,
+  .header__auth {
     display: none;
   }
 
   .hamburger {
     display: block;
+    font-size: 1.4rem;
+    line-height: 1;
+    padding: 0.25rem 0.5rem;
   }
 
+  .mobile-nav .login_btn_three {
+    margin-top: $spacing-base;
+  }
+
+  /* Shrink brand so it fits next to the hamburger */
+  .header__brand h2 {
+    font-size: 1.2rem;
+    letter-spacing: 1.5px;
+    text-shadow: none;
+  }
+
+  .header__container {
+    padding: 0 $spacing-base;
+    gap: $spacing-sm;
+  }
+
+  /* Mobile menu overlay */
   .menu-overlay {
     position: fixed;
-    top: 70px;
+    top: $header-height;
     left: 0;
     width: 100%;
-    height: calc(100vh - 70px);
+    height: calc(100dvh - #{$header-height});
 
     background-color: $color-primary;
     display: flex;
@@ -327,62 +347,57 @@ CARD
   .mobile-nav {
     display: flex;
     flex-direction: column;
-    gap: $spacing-lg;
+    gap: $spacing-base;
     align-items: center;
   }
+}
 
-  .mobile-nav button,
-  .mobile-nav a {
-    background: transparent;
-    border: none;
-    color: $color-text;
-    font-size: 1.3rem;
-    text-decoration: none;
+/* Safety net: overlay must never render at desktop widths */
+@media (min-width: 769px) {
+  .menu-overlay {
+    display: none;
   }
 }
 
 /* =========================================
-   MOBILE LAYOUT
+   MOBILE LAYOUT (grid, cards)
    ========================================= */
 
 @media (max-width: 600px) {
   main {
     padding: 1rem;
+    padding-top: calc(#{$header-height} + 1rem);
   }
 
   .grid {
-    grid-template-columns: 1fr; /* ⭐ one column, no 2-up split */
+    grid-template-columns: 1fr;
     gap: 1rem;
     justify-items: center;
   }
 
   .card {
     width: 100%;
-    max-width: 340px; /* ⭐ keeps a nice card width, centered */
+    max-width: 340px;
     margin: 0 auto;
   }
 }
 
-//* PAGE SPACING */
-.wishlist.page {
-  padding-top: 90px;
-  padding-bottom: 90px;
-}
+/* =========================================
+   WISHLIST PAGE
+   ========================================= */
 
-/* TITLE */
+
 .wishlist h1 {
   text-align: center;
   margin-bottom: $spacing-lg;
 }
 
-/* EMPTY STATE */
 .wishlist > div {
   text-align: center;
   font-size: 1.2rem;
   margin-top: $spacing-lg;
 }
 
-/* WISHLIST ITEM */
 .wishlist-item {
   display: flex;
   flex-direction: column;
@@ -396,20 +411,17 @@ CARD
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-/* IMAGE */
 .wish_img {
   width: 150px;
   height: auto;
   object-fit: contain;
 }
 
-/* TITLE */
 .wishlist-item h3 {
   text-align: center;
   font-size: 1.2rem;
 }
 
-/* REMOVE BUTTON BELOW TEXT */
 .wishlist-item button {
   background: $color-secondary;
   color: $color-text;
@@ -417,125 +429,112 @@ CARD
   border-radius: 4px;
   cursor: pointer;
   transition: 0.2s;
-  margin-top: $spacing-sm; /* ⭐ ensures spacing below text */
+  margin-top: $spacing-sm;
 }
 
 .wishlist-item button:hover {
   background: color.scale($color-secondary, $lightness: -15%);
 }
 
-/* MOBILE VERSION */
 @media (max-width: 768px) {
   .wish_img {
     width: 60%;
   }
+}
 
-  /* PAGE SPACING */
-  .cart.page {
-    padding-top: 90px;
-    padding-bottom: 90px;
-  }
+/* =========================================
+   CART PAGE
+   ========================================= */
 
-  /* TITLE */
-  .cart h1 {
-    text-align: center;
-    margin-bottom: $spacing-lg;
-  }
 
-  /* EMPTY STATE */
-  .cart > div {
-    text-align: center;
-    font-size: 1.2rem;
-    margin-top: $spacing-lg;
-  }
+.cart h1 {
+  text-align: center;
+  margin-bottom: $spacing-lg;
+}
 
-  /* CART ITEM */
-  .cart-item {
-    display: flex;
-    flex-direction: column; /* ⭐ stack everything vertically */
-    align-items: center; /* ⭐ center text + buttons */
-    gap: $spacing-base;
-    padding: $spacing-base;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: #fff;
-    margin-bottom: $spacing-lg;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  }
+.cart > div {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: $spacing-lg;
+}
 
-  /* IMAGE */
+.cart-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-base;
+  padding: $spacing-base;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  margin-bottom: $spacing-lg;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.cart-img {
+  width: 150px;
+  height: auto;
+  object-fit: contain;
+}
+
+.info {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.info h3 {
+  font-size: 1.2rem;
+}
+
+.qty {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+  justify-content: center;
+}
+
+.qty button {
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.2rem;
+  background: $color-primary;
+  color: $color-text;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.qty button:hover {
+  background: $color-secondary;
+}
+
+.subtotal {
+  margin-top: $spacing-sm;
+  font-weight: bold;
+}
+
+.info button {
+  background: $color-secondary;
+  color: $color-text;
+  padding: $spacing-sm $spacing-base;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-top: $spacing-sm;
+}
+
+.info button:hover {
+  background: color.scale($color-secondary, $lightness: -15%);
+}
+
+.cart h2 {
+  text-align: center;
+  margin-top: $spacing-lg;
+}
+
+@media (max-width: 768px) {
   .cart-img {
-    width: 150px;
-    height: auto;
-    object-fit: contain;
-  }
-
-  /* INFO BLOCK */
-  .info {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-sm;
-  }
-
-  /* TITLE */
-  .info h3 {
-    font-size: 1.2rem;
-  }
-
-  /* QUANTITY CONTROLS */
-  .qty {
-    display: flex;
-    gap: $spacing-sm;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .qty button {
-    width: 2rem;
-    height: 2rem;
-    font-size: 1.2rem;
-    background: $color-primary;
-    color: $color-text;
-    border-radius: 4px;
-    transition: 0.2s;
-  }
-
-  .qty button:hover {
-    background: $color-secondary;
-  }
-
-  /* SUBTOTAL */
-  .subtotal {
-    margin-top: $spacing-sm;
-    font-weight: bold;
-  }
-
-  /* REMOVE BUTTON BELOW EVERYTHING */
-  .info button {
-    background: $color-secondary;
-    color: $color-text;
-    padding: $spacing-sm $spacing-base;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: 0.2s;
-    margin-top: $spacing-sm;
-  }
-
-  .info button:hover {
-    background: color.scale($color-secondary, $lightness: -15%);
-  }
-
-  /* TOTAL PRICE */
-  .cart h2 {
-    text-align: center;
-    margin-top: $spacing-lg;
-  }
-
-  /* MOBILE VERSION */
-  @media (max-width: 768px) {
-    .cart-img {
-      width: 60%;
-    }
+    width: 60%;
   }
 }

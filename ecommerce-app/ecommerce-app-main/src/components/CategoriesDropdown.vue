@@ -1,7 +1,7 @@
 <template>
   <div class="categories-dropdown" ref="rootEl">
     <button
-      class="categories-dropdown__trigger nav-link"
+      class="categories-dropdown__trigger"
       @click="toggle"
       :aria-expanded="isOpen"
       aria-haspopup="true"
@@ -78,7 +78,21 @@ onUnmounted(() => {
   display: inline-block;
 }
 
-/* Trigger look comes from the global .nav-link class (shared with Cart/Wishlist) */
+.categories-dropdown__trigger {
+  background: transparent;
+  border: none;
+  color: $color-text;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: $spacing-sm $spacing-base;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
 
 .chevron {
   display: inline-block;
@@ -93,7 +107,7 @@ onUnmounted(() => {
 .categories-dropdown__panel {
   position: absolute;
   top: calc(100% + 8px);
-  right: 0; /* trigger now sits on the right side of the header */
+  left: 0;
   z-index: 3000;
 
   background: #fff;
@@ -132,13 +146,13 @@ onUnmounted(() => {
 @media (max-width: 768px) {
   .categories-dropdown__panel {
     position: fixed;
-    top: $header-height;
+    top: 70px;
     left: 0;
     right: 0;
     min-width: 100%;
     border-radius: 0;
     grid-template-columns: 1fr;
-    max-height: calc(100dvh - #{$header-height});
+    max-height: calc(100vh - 70px);
   }
 }
 </style>

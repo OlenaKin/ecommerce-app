@@ -1,5 +1,5 @@
 <!-- src/components/ProductCard.vue -->
-
+<
 <template>
   <div class="card">
     <!-- Clickable area (opens product page) -->
