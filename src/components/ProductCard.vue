@@ -12,8 +12,8 @@
 
     <!-- Buttons (do NOT open product page) -->
     <div class="card__actions">
-      <button @click.stop="addToWishlist"><HeartIcon /></button>
-      <button @click.stop="addToCart"><CartIcon /></button>
+      <button @click.stop="addToWishlist"><HeartIcon :size="16" /></button>
+      <button @click.stop="addToCart"><CartIcon :size="16" /></button>
     </div>
   </div>
 </template>
@@ -66,6 +66,15 @@ function addToCart() {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
+}
+
+/* Smaller card buttons (overrides the global button padding for cards only) */
+.card__actions button {
+  padding: 0.3rem 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
 }
 
 .card:hover {
