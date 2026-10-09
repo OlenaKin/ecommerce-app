@@ -34,8 +34,18 @@ const categories = ref<Category[]>([])
 const isOpen = ref(false)
 const rootEl = ref<HTMLElement | null>(null)
 
+async function loadCategories() {
+  try {
+    categories.value = await getCategories()
+  } catch (err) {
+    // e.g. offline / network changed — retried next time the dropdown opens
+    console.error('Could not load categories:', err)
+  }
+}
+
 function toggle() {
   isOpen.value = !isOpen.value
+  if (isOpen.value && categories.value.length === 0) loadCategories()
 }
 
 function close() {
@@ -58,8 +68,8 @@ function handleEscape(event: KeyboardEvent) {
   if (event.key === 'Escape') close()
 }
 
-onMounted(async () => {
-  categories.value = await getCategories()
+onMounted(() => {
+  loadCategories()
   document.addEventListener('click', handleClickOutside)
   document.addEventListener('keydown', handleEscape)
 })

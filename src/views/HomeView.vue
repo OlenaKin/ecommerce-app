@@ -6,6 +6,11 @@
 
     <div v-if="loading">Loading...</div>
 
+    <div v-else-if="error" class="load-error" role="alert">
+      <p>{{ error }}</p>
+      <button class="login_btn_three" @click="load">Try again</button>
+    </div>
+
     <div v-else class="grid">
       <ProductCard v-for="product in products" :key="product.id" :product="product" />
     </div>
@@ -21,19 +26,25 @@ import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const store = useProductsStore()
-const { products, loading } = storeToRefs(store)
+const { products, loading, error } = storeToRefs(store)
 
 const route = useRoute()
 
-watch(
-  () => route.query.category,
-  (category) => {
-    if (category) {
-      store.fetchProductsByCategory(category as string)
-    } else {
-      store.fetchProducts()
-    }
-  },
-  { immediate: true },
-)
+function load() {
+  const category = route.query.category
+  if (category) {
+    store.fetchProductsByCategory(category as string)
+  } else {
+    store.fetchProducts()
+  }
+}
+
+watch(() => route.query.category, load, { immediate: true })
 </script>
+
+<style scoped>
+.load-error {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+</style>

@@ -58,20 +58,13 @@ function normalizeProduct(p: any): Product {
   }
 }
 
+// Errors are thrown (not swallowed) so the store can show a message + retry
 export async function getProducts(): Promise<Product[]> {
-  try {
-    const res = await fetch(`${API_URL}/products`)
-    if (!res.ok) {
-      console.error('Fetch failed with status:', res.status)
-      return []
-    }
-    const json = await res.json()
-    const products = json.products ?? json.data ?? json
-    return products.map(normalizeProduct)
-  } catch (err) {
-    console.error('Fetch error:', err)
-    return []
-  }
+  const res = await fetch(`${API_URL}/products`)
+  if (!res.ok) throw new Error('Failed to fetch products')
+  const json = await res.json()
+  const products = json.products ?? json.data ?? json
+  return products.map(normalizeProduct)
 }
 
 export async function getProductsByCategory(category: string): Promise<Product[]> {

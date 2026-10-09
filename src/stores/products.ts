@@ -7,25 +7,31 @@ export const useProductsStore = defineStore('products', {
   state: () => ({
     products: [] as Product[],
     loading: false,
+    error: '' as string,
     category: '' as string,
   }),
 
   actions: {
     async fetchProducts() {
-      this.loading = true
       this.category = ''
-      try {
-        this.products = await getProducts()
-      } finally {
-        this.loading = false
-      }
+      await this.load(getProducts)
     },
 
     async fetchProductsByCategory(category: string) {
-      this.loading = true
       this.category = category
+      await this.load(() => getProductsByCategory(category))
+    },
+
+    // Shared loading/error handling for both fetches
+    async load(fetcher: () => Promise<Product[]>) {
+      this.loading = true
+      this.error = ''
       try {
-        this.products = await getProductsByCategory(category)
+        this.products = await fetcher()
+      } catch (err) {
+        console.error('Fetch error:', err)
+        this.products = []
+        this.error = 'Could not load products. Check your connection and try again.'
       } finally {
         this.loading = false
       }
