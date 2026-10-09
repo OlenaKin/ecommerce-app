@@ -12,7 +12,7 @@
 }
 
 html {
-  font-size: 16px;
+  font-size: 14px;
   scroll-padding-top: $header-height;
 }
 
@@ -56,8 +56,8 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
   padding: 0;
   border: none;
   border-radius: 50%;
@@ -107,7 +107,7 @@ main {
 h1,
 h2,
 h3 {
-  font-weight: 600;
+  font-weight: 500;
   color: #222;
 }
 
@@ -230,6 +230,7 @@ img {
   font-weight: 700;
   letter-spacing: 3px;
   color: $color-text;
+  text-shadow: 2px 2px 4px;
   text-shadow: 2px 2px 4px #898787;
   cursor: pointer;
 }
@@ -340,7 +341,7 @@ img {
     background: none;
     border: none;
     color: $color-text;
-    font-size: 1.5rem;
+    font-size: 1rem;
     cursor: pointer;
   }
 
@@ -385,7 +386,6 @@ img {
 /* =========================================
    WISHLIST PAGE
    ========================================= */
-
 
 .wishlist h1 {
   text-align: center;
@@ -445,7 +445,6 @@ img {
 /* =========================================
    CART PAGE
    ========================================= */
-
 
 .cart h1 {
   text-align: center;
